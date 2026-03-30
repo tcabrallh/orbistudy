@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Página não encontrada — Orbi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  background: #000;
+  color: #f5f5f7;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 300;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Orbs de fundo */
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+}
+.orb-1 { width: 500px; height: 500px; background: rgba(108,99,255,0.1); top: -150px; left: -100px; }
+.orb-2 { width: 350px; height: 350px; background: rgba(0,229,195,0.07); bottom: -100px; right: -80px; }
+
+.content {
+  position: relative;
+  z-index: 1;
+  max-width: 520px;
+  animation: fadeUp 0.7s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
+/* Número 404 */
+.error-num {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(6rem, 20vw, 10rem);
+  letter-spacing: -0.06em;
+  line-height: 1;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+}
+.error-num::after {
+  content: '404';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #6c63ff 0%, #00e5c3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0.15;
+  filter: blur(20px);
+  z-index: -1;
+}
+
+/* Anel orbital decorativo */
+.orbit-wrap {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 2rem;
+}
+.orbit-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(108,99,255,0.2);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+.ring-1 { width: 60px; height: 60px; }
+.ring-2 { width: 90px; height: 90px; animation: spin 8s linear infinite; }
+.ring-3 { width: 120px; height: 120px; animation: spin 14s linear infinite reverse; }
+@keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+.ring-dot {
+  position: absolute;
+  border-radius: 50%;
+  top: -4px; left: 50%;
+  transform: translateX(-50%);
+}
+.ring-dot-1 { width: 8px; height: 8px; background: #00e5c3; box-shadow: 0 0 10px #00e5c3; }
+.ring-dot-2 { width: 6px; height: 6px; background: #6c63ff; box-shadow: 0 0 8px #6c63ff; }
+.orbit-core {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6c63ff, #00e5c3);
+  box-shadow: 0 0 20px rgba(108,99,255,0.4);
+}
+
+h1 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  letter-spacing: -0.04em;
+  margin-bottom: 0.8rem;
+  line-height: 1.1;
+}
+p {
+  color: rgba(255,255,255,0.45);
+  font-size: 1rem;
+  line-height: 1.65;
+  margin-bottom: 2.5rem;
+  letter-spacing: -0.01em;
+}
+
+.btn-group {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.btn-primary {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #000;
+  background: #fff;
+  border: none;
+  padding: 0.8rem 1.8rem;
+  border-radius: 100px;
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: -0.01em;
+  transition: opacity 0.2s, transform 0.2s;
+  display: inline-block;
+}
+.btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
+.btn-secondary {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.75);
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 0.8rem 1.8rem;
+  border-radius: 100px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: inline-block;
+}
+.btn-secondary:hover { background: rgba(255,255,255,0.12); }
+
+footer {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 0; right: 0;
+  text-align: center;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.2);
+  z-index: 1;
+}
+footer a { color: rgba(255,255,255,0.2); text-decoration: none; }
+footer a:hover { color: rgba(255,255,255,0.5); }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<div class="content">
+
+  <!-- Logo -->
+  <div class="logo">
+    <svg width="110" height="34" viewBox="0 0 110 34" fill="none">
+      <circle cx="15" cy="17" r="11" stroke="rgba(108,99,255,0.35)" stroke-width="1.5"/>
+      <circle cx="15" cy="17" r="4.5" fill="#6c63ff"/>
+      <circle cx="26" cy="9" r="2.8" fill="#00e5c3"/>
+      <text x="34" y="23" font-family="Syne, sans-serif" font-size="20" font-weight="800" letter-spacing="-0.04em" fill="white">Orbi</text>
+    </svg>
+  </div>
+
+  <!-- Visual orbital -->
+  <div class="orbit-wrap">
+    <div class="orbit-ring ring-1"></div>
+    <div class="orbit-ring ring-2"><div class="ring-dot ring-dot-1"></div></div>
+    <div class="orbit-ring ring-3"><div class="ring-dot ring-dot-2"></div></div>
+    <div class="orbit-core"></div>
+  </div>
+
+  <!-- Número 404 -->
+  <div class="error-num">404</div>
+
+  <h1>Essa página saiu de órbita.</h1>
+  <p>A página que você está procurando não existe ou foi movida.<br>Mas sua rotina de estudos continua por aqui.</p>
+
+  <div class="btn-group">
+    <a href="/" class="btn-primary">Voltar ao início</a>
+    <a href="/app.html" class="btn-secondary">Abrir o app</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2025 Orbi · <a href="/">orbistudy.com.br</a></p>
+</footer>
+
+</body>
+</html>
