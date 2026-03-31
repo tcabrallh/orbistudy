@@ -194,7 +194,36 @@ body::before { content:''; position:fixed; inset:0; background-image:url("data:i
 .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(16px);background:var(--surface);border:1px solid var(--border-accent);border-radius:100px;padding:0.7rem 1.5rem;font-size:0.85rem;z-index:600;opacity:0;transition:all 0.3s;pointer-events:none;}
 .toast.active{opacity:1;transform:translateX(-50%) translateY(0);}
 
-@media(max-width:700px){.sidebar{display:none;}.dias-grid{grid-template-columns:repeat(4,1fr);}}
+/* ── AI CHAT ── */
+.ai-btn{display:flex;align-items:center;gap:0.7rem;padding:0.7rem 0.8rem;border-radius:10px;color:var(--accent2);font-size:0.88rem;cursor:pointer;transition:all 0.2s;margin-bottom:0.2rem;border:1px solid rgba(0,229,195,0.2);background:rgba(0,229,195,0.05);width:100%;text-align:left;font-family:'DM Sans',sans-serif;}
+.ai-btn:hover{background:rgba(0,229,195,0.1);border-color:rgba(0,229,195,0.35);}
+.ai-panel{position:fixed;top:0;right:0;bottom:0;width:380px;background:var(--surface);border-left:1px solid var(--border-accent);z-index:400;display:flex;flex-direction:column;transform:translateX(100%);transition:transform 0.3s ease;}
+.ai-panel.open{transform:none;}
+.ai-header{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);}
+.ai-header-info{display:flex;align-items:center;gap:0.7rem;}
+.ai-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.ai-title{font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;letter-spacing:-0.02em;}
+.ai-subtitle{font-size:0.72rem;color:var(--accent2);margin-top:1px;}
+.ai-close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.2rem;transition:color 0.2s;padding:0.2rem;}
+.ai-close:hover{color:var(--text);}
+.ai-messages{flex:1;overflow-y:auto;padding:1.2rem;display:flex;flex-direction:column;gap:0.8rem;}
+.ai-msg{max-width:85%;padding:0.75rem 1rem;border-radius:14px;font-size:0.88rem;line-height:1.6;}
+.ai-msg.user{background:rgba(108,99,255,0.15);border:1px solid rgba(108,99,255,0.2);color:var(--text);align-self:flex-end;border-bottom-right-radius:4px;}
+.ai-msg.assistant{background:var(--bg2);border:1px solid var(--border);color:var(--text);align-self:flex-start;border-bottom-left-radius:4px;}
+.ai-msg.typing{opacity:0.6;}
+.ai-suggestions{padding:0 1.2rem 0.8rem;display:flex;flex-direction:column;gap:0.4rem;}
+.ai-suggestion{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:0.55rem 0.9rem;font-size:0.8rem;color:var(--muted);cursor:pointer;transition:all 0.2s;text-align:left;font-family:'DM Sans',sans-serif;}
+.ai-suggestion:hover{border-color:rgba(0,229,195,0.3);color:var(--accent2);}
+.ai-input-row{padding:1rem 1.2rem;border-top:1px solid var(--border);display:flex;gap:0.6rem;align-items:flex-end;}
+.ai-input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.88rem;padding:0.7rem 1rem;outline:none;transition:border-color 0.2s;resize:none;max-height:120px;min-height:42px;line-height:1.5;}
+.ai-input:focus{border-color:rgba(0,229,195,0.4);}
+.ai-send{width:38px;height:38px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:opacity 0.2s;flex-shrink:0;}
+.ai-send:hover{opacity:0.85;}
+.ai-send:disabled{opacity:0.4;cursor:not-allowed;}
+.ai-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:399;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.ai-overlay.open{opacity:1;pointer-events:all;}
+
+@media(max-width:700px){.sidebar{display:none;}.dias-grid{grid-template-columns:repeat(4,1fr);}.ai-panel{width:100%;}}
 </style>
 </head>
 <body>
@@ -296,6 +325,9 @@ body::before { content:''; position:fixed; inset:0; background-image:url("data:i
       <button class="nav-item" onclick="showView('calendario',this)">
         <span class="nav-icon">📅</span> Calendário
       </button>
+      <button class="ai-btn" onclick="openAI()">
+        <span class="nav-icon">✦</span> Assistente Orbi
+      </button>
       <div class="sidebar-bottom">
         <div class="user-chip">
           <div class="user-avatar" id="user-avatar">?</div>
@@ -353,6 +385,35 @@ body::before { content:''; position:fixed; inset:0; background-image:url("data:i
       <button class="btn-danger" onclick="deleteCurrentEvent()">🗑 Remover</button>
       <button class="btn-success" id="btn-toggle-done" onclick="toggleEventDone()">✅ Concluir</button>
     </div>
+  </div>
+</div>
+
+<!-- AI OVERLAY -->
+<div class="ai-overlay" id="ai-overlay" onclick="closeAI()"></div>
+
+<!-- AI PANEL -->
+<div class="ai-panel" id="ai-panel">
+  <div class="ai-header">
+    <div class="ai-header-info">
+      <div class="ai-avatar">✦</div>
+      <div>
+        <div class="ai-title">Orbi IA</div>
+        <div class="ai-subtitle">Assistente de estudos</div>
+      </div>
+    </div>
+    <button class="ai-close" onclick="closeAI()">✕</button>
+  </div>
+  <div class="ai-messages" id="ai-messages">
+    <div class="ai-msg assistant">Olá! Sou a Orbi, sua assistente de estudos. Como posso te ajudar hoje? 😊</div>
+  </div>
+  <div class="ai-suggestions" id="ai-suggestions">
+    <button class="ai-suggestion" onclick="sendSuggestion(this)">Como está minha agenda esta semana?</button>
+    <button class="ai-suggestion" onclick="sendSuggestion(this)">Preciso de dicas para estudar Redação</button>
+    <button class="ai-suggestion" onclick="sendSuggestion(this)">Me dá um plano de revisão de véspera</button>
+  </div>
+  <div class="ai-input-row">
+    <textarea class="ai-input" id="ai-input" placeholder="Pergunte algo sobre sua rotina..." rows="1" onkeydown="handleAIKey(event)" oninput="autoResize(this)"></textarea>
+    <button class="ai-send" id="ai-send" onclick="sendAIMessage()">➤</button>
   </div>
 </div>
 
@@ -591,6 +652,88 @@ function showView(name,el){
 }
 
 async function logout(){await sb.auth.signOut();window.location.href='/index.html';}
+
+// ── ASSISTENTE IA ──
+const WORKER_URL='https://orbi-ai.tcabral-lh.workers.dev/';
+let aiMessages=[];
+
+function openAI(){
+  document.getElementById('ai-panel').classList.add('open');
+  document.getElementById('ai-overlay').classList.add('open');
+  document.getElementById('ai-input').focus();
+}
+
+function closeAI(){
+  document.getElementById('ai-panel').classList.remove('open');
+  document.getElementById('ai-overlay').classList.remove('open');
+}
+
+function autoResize(el){
+  el.style.height='auto';
+  el.style.height=Math.min(el.scrollHeight,120)+'px';
+}
+
+function handleAIKey(e){
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAIMessage();}
+}
+
+function sendSuggestion(el){
+  document.getElementById('ai-input').value=el.textContent;
+  document.getElementById('ai-suggestions').style.display='none';
+  sendAIMessage();
+}
+
+function buildContext(){
+  const today=new Date().toISOString().split('T')[0];
+  const todayEvs=eventos.filter(e=>e.data===today);
+  const weekStart=new Date();weekStart.setDate(weekStart.getDate()-weekStart.getDay());
+  const weekEnd=new Date(weekStart);weekEnd.setDate(weekEnd.getDate()+6);
+  const weekEvs=eventos.filter(e=>e.data>=weekStart.toISOString().split('T')[0]&&e.data<=weekEnd.toISOString().split('T')[0]);
+  const concluidos=weekEvs.filter(e=>e.concluido).length;
+  const diasExame=userProfile?.data_exame?Math.ceil((new Date(userProfile.data_exame)-new Date())/86400000):null;
+  return `Objetivo: ${userProfile?.objetivo||'não definido'}. Tarefas hoje: ${todayEvs.length} (${todayEvs.filter(e=>e.concluido).length} concluídas). Esta semana: ${weekEvs.length} pomodoros (${concluidos} concluídos). ${diasExame?`Faltam ${diasExame} dias para o exame.`:''}`;
+}
+
+async function sendAIMessage(){
+  const input=document.getElementById('ai-input');
+  const text=input.value.trim();
+  if(!text)return;
+  const btn=document.getElementById('ai-send');
+  input.value='';input.style.height='auto';btn.disabled=true;
+  document.getElementById('ai-suggestions').style.display='none';
+
+  addAIMessage('user',text);
+  aiMessages.push({role:'user',content:text});
+
+  const typing=addAIMessage('assistant','...',true);
+
+  try{
+    const res=await fetch(WORKER_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({messages:aiMessages,context:buildContext()})
+    });
+    const data=await res.json();
+    const reply=data.content?.[0]?.text||'Desculpe, não consegui responder. Tente novamente.';
+    typing.remove();
+    addAIMessage('assistant',reply);
+    aiMessages.push({role:'assistant',content:reply});
+  }catch(e){
+    typing.remove();
+    addAIMessage('assistant','Ops, tive um problema para me conectar. Tente novamente em instantes.');
+  }
+  btn.disabled=false;
+}
+
+function addAIMessage(role,text,isTyping=false){
+  const msgs=document.getElementById('ai-messages');
+  const div=document.createElement('div');
+  div.className=`ai-msg ${role}${isTyping?' typing':''}`;
+  div.textContent=text;
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+  return div;
+}
 function openModal(id){document.getElementById(id).classList.add('active');}
 function closeModal(id){document.getElementById(id).classList.remove('active');}
 function handleOverlay(e,id){if(e.target===document.getElementById(id))closeModal(id);}
