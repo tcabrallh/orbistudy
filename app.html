@@ -171,6 +171,56 @@ body::before { content:''; position:fixed; inset:0; background-image:url("data:i
 .cal-event.descanso{background:rgba(255,107,107,0.13);color:var(--accent3);}
 .cal-event.concluido{opacity:0.35;text-decoration:line-through;}
 
+/* ── CALENDAR VIEW TOGGLE ── */
+.view-cal-tabs{display:flex;gap:0.4rem;margin-bottom:1.5rem;}
+.view-cal-tab{padding:0.45rem 1rem;border-radius:8px;border:1px solid var(--border);background:var(--bg2);color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:500;cursor:pointer;transition:all 0.2s;}
+.view-cal-tab:hover{border-color:var(--border-accent);color:var(--text);}
+.view-cal-tab.active{background:rgba(108,99,255,0.12);border-color:rgba(108,99,255,0.35);color:var(--accent);}
+.view-cal-panel{display:none;}
+.view-cal-panel.active{display:block;}
+
+/* ── WEEKLY VIEW ── */
+.view-calendar-week__nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
+.view-calendar-week__label{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;letter-spacing:-0.02em;}
+.view-calendar-week__grid{display:grid;grid-template-columns:52px repeat(7,1fr);gap:0;}
+.view-calendar-week__col-header{text-align:center;padding:0.5rem 0.25rem;font-size:0.68rem;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;border-bottom:1px solid var(--border);}
+.view-calendar-week__col-header.today-col{color:var(--accent2);}
+.view-calendar-week__time-gutter{display:flex;flex-direction:column;}
+.view-calendar-week__time-slot{height:52px;display:flex;align-items:flex-start;justify-content:flex-end;padding-right:8px;padding-top:2px;font-size:0.62rem;color:var(--muted);flex-shrink:0;border-right:1px solid var(--border);}
+.view-calendar-week__day-col{position:relative;border-right:1px solid var(--border);border-bottom:1px solid var(--border);}
+.view-calendar-week__day-col:first-of-type{border-left:none;}
+.view-calendar-week__hour-row{height:52px;border-bottom:1px solid rgba(255,255,255,0.04);}
+.view-calendar-week__event{position:absolute;left:2px;right:2px;border-radius:5px;padding:2px 5px;font-size:0.63rem;line-height:1.35;overflow:hidden;cursor:pointer;transition:opacity 0.2s;z-index:1;}
+.view-calendar-week__event:hover{opacity:0.8;}
+.view-calendar-week__event.estudo{background:rgba(108,99,255,0.22);color:#c0baff;border-left:2px solid var(--accent);}
+.view-calendar-week__event.revisao{background:rgba(0,229,195,0.15);color:var(--accent2);border-left:2px solid var(--accent2);}
+.view-calendar-week__event.descanso{background:rgba(255,107,107,0.14);color:var(--accent3);border-left:2px solid var(--accent3);}
+.view-calendar-week__event.concluido{opacity:0.32;text-decoration:line-through;}
+.view-calendar-week__now-line{position:absolute;left:0;right:0;height:2px;background:var(--accent3);z-index:2;pointer-events:none;}
+.view-calendar-week__now-line::before{content:'';position:absolute;left:-4px;top:-4px;width:10px;height:10px;border-radius:50%;background:var(--accent3);}
+.view-calendar-week__today-col-bg{background:rgba(108,99,255,0.025);}
+
+/* ── DAILY VIEW ── */
+.view-calendar-day__nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
+.view-calendar-day__label{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;letter-spacing:-0.02em;}
+.view-calendar-day__grid{display:grid;grid-template-columns:52px 1fr;gap:0;}
+.view-calendar-day__time-gutter{display:flex;flex-direction:column;border-right:1px solid var(--border);}
+.view-calendar-day__time-slot{height:60px;display:flex;align-items:flex-start;justify-content:flex-end;padding-right:8px;padding-top:3px;font-size:0.63rem;color:var(--muted);flex-shrink:0;}
+.view-calendar-day__col{position:relative;border-right:1px solid var(--border);border-bottom:1px solid var(--border);}
+.view-calendar-day__hour-row{height:60px;border-bottom:1px solid rgba(255,255,255,0.04);}
+.view-calendar-day__event{position:absolute;left:4px;right:4px;border-radius:6px;padding:4px 8px;font-size:0.75rem;line-height:1.4;overflow:hidden;cursor:pointer;transition:opacity 0.2s;z-index:1;display:flex;flex-direction:column;gap:2px;}
+.view-calendar-day__event:hover{opacity:0.82;}
+.view-calendar-day__event .ev-title{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.view-calendar-day__event .ev-time{font-size:0.65rem;opacity:0.7;}
+.view-calendar-day__event.estudo{background:rgba(108,99,255,0.2);color:#c0baff;border-left:3px solid var(--accent);}
+.view-calendar-day__event.revisao{background:rgba(0,229,195,0.14);color:var(--accent2);border-left:3px solid var(--accent2);}
+.view-calendar-day__event.descanso{background:rgba(255,107,107,0.13);color:var(--accent3);border-left:3px solid var(--accent3);}
+.view-calendar-day__event.concluido{opacity:0.3;text-decoration:line-through;}
+.view-calendar-day__now-line{position:absolute;left:0;right:0;height:2px;background:var(--accent3);z-index:2;pointer-events:none;}
+.view-calendar-day__now-line::before{content:'';position:absolute;left:-4px;top:-4px;width:10px;height:10px;border-radius:50%;background:var(--accent3);}
+.view-calendar-day__empty{display:flex;align-items:center;justify-content:center;height:60px;font-size:0.8rem;color:var(--muted);grid-column:2;}
+.view-calendar-day__today-badge{display:inline-flex;align-items:center;gap:0.4rem;padding:0.2rem 0.7rem;border-radius:100px;font-size:0.72rem;background:rgba(108,99,255,0.12);border:1px solid rgba(108,99,255,0.25);color:#b0aaff;margin-left:0.6rem;}
+
 .fase-info-app{display:inline-flex;align-items:center;gap:0.4rem;padding:0.3rem 0.8rem;border-radius:100px;font-size:0.75rem;margin-left:0.8rem;}
 .fase-info-app.conteudo{background:rgba(108,99,255,0.1);color:#b0aaff;border:1px solid rgba(108,99,255,0.2);}
 .fase-info-app.revisao{background:rgba(0,229,195,0.08);color:var(--accent2);border:1px solid rgba(0,229,195,0.2);}
@@ -362,14 +412,47 @@ body::before { content:''; position:fixed; inset:0; background-image:url("data:i
       <div class="view" id="view-calendario">
         <div class="view-header">
           <h1 class="view-title">Calendário</h1>
-          <p class="view-sub">Visão mensal da sua agenda de estudos.</p>
+          <p class="view-sub" id="cal-view-sub">Visão mensal da sua agenda de estudos.</p>
         </div>
-        <div class="cal-nav">
-          <button class="cal-btn" onclick="changeMonth(-1)">← Anterior</button>
-          <div class="cal-month" id="cal-month-label"></div>
-          <button class="cal-btn" onclick="changeMonth(1)">Próximo →</button>
+
+        <!-- View Toggle Tabs -->
+        <div class="view-cal-tabs">
+          <button class="view-cal-tab active" id="tab-month" onclick="switchCalView('month')">📅 Mês</button>
+          <button class="view-cal-tab" id="tab-week" onclick="switchCalView('week')">📆 Semana</button>
+          <button class="view-cal-tab" id="tab-day" onclick="switchCalView('day')">🗓 Dia</button>
         </div>
-        <div class="cal-grid" id="cal-grid"></div>
+
+        <!-- MONTHLY PANEL (existing) -->
+        <div class="view-cal-panel active" id="cal-panel-month">
+          <div class="cal-nav">
+            <button class="cal-btn" onclick="changeMonth(-1)">← Anterior</button>
+            <div class="cal-month" id="cal-month-label"></div>
+            <button class="cal-btn" onclick="changeMonth(1)">Próximo →</button>
+          </div>
+          <div class="cal-grid" id="cal-grid"></div>
+        </div>
+
+        <!-- WEEKLY PANEL -->
+        <div class="view-cal-panel" id="cal-panel-week">
+          <div class="view-calendar-week__nav">
+            <button class="cal-btn" onclick="changeWeek(-1)">← Semana anterior</button>
+            <div class="view-calendar-week__label" id="week-label"></div>
+            <button class="cal-btn" onclick="changeWeek(1)">Próxima semana →</button>
+          </div>
+          <div id="week-grid-wrapper" style="overflow-x:auto;">
+            <div id="week-grid" style="min-width:600px;"></div>
+          </div>
+        </div>
+
+        <!-- DAILY PANEL -->
+        <div class="view-cal-panel" id="cal-panel-day">
+          <div class="view-calendar-day__nav">
+            <button class="cal-btn" onclick="changeDay(-1)">← Dia anterior</button>
+            <div class="view-calendar-day__label" id="day-label"></div>
+            <button class="cal-btn" onclick="changeDay(1)">Próximo dia →</button>
+          </div>
+          <div id="day-grid"></div>
+        </div>
       </div>
     </main>
   </div>
@@ -573,6 +656,8 @@ async function initApp(){
     document.getElementById('stat-dias-exame').textContent=dias>0?dias:'🎯';
   }
   await loadEventos();renderDashboard();renderCalendar();
+  if(currentCalView==='week') renderWeekView();
+  if(currentCalView==='day') renderDayView();
 }
 
 async function loadEventos(){const{data}=await sb.from('eventos').select('*').eq('user_id',currentUser.id).order('data').order('hora_inicio');eventos=data||[];}
@@ -635,13 +720,17 @@ function openEventDetail(id){
 async function toggleEventDone(){
   const ev=eventos.find(e=>e.id===currentEventId);if(!ev)return;
   await sb.from('eventos').update({concluido:!ev.concluido}).eq('id',currentEventId);
-  await loadEventos();renderDashboard();renderCalendar();closeModal('modal-detail');
+  await loadEventos();renderDashboard();renderCalendar();
+  if(currentCalView==='week')renderWeekView();if(currentCalView==='day')renderDayView();
+  closeModal('modal-detail');
   showToast(ev.concluido?'Tarefa reaberta.':'✅ Pomodoro concluído!');
 }
 
 async function deleteCurrentEvent(){
   await sb.from('eventos').delete().eq('id',currentEventId);
-  await loadEventos();renderDashboard();renderCalendar();closeModal('modal-detail');showToast('Evento removido.');
+  await loadEventos();renderDashboard();renderCalendar();
+  if(currentCalView==='week')renderWeekView();if(currentCalView==='day')renderDayView();
+  closeModal('modal-detail');showToast('Evento removido.');
 }
 
 function showView(name,el){
@@ -741,6 +830,198 @@ function handleOverlay(e,id){if(e.target===document.getElementById(id))closeModa
 let toastTimer;
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('active');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('active'),3000);}
 function formatDate(str){return new Date(str+'T12:00:00').toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'});}
+
+// ── CALENDAR MULTI-VIEW STATE ──
+let currentCalView = 'month';
+let currentWeekStart = getWeekStart(new Date());
+let currentDay = new Date();
+
+const CAL_VIEW_SUBS = {
+  month: 'Visão mensal da sua agenda de estudos.',
+  week: 'Visão semanal — clique em um evento para ver detalhes.',
+  day: 'Visão diária detalhada — todos os agendamentos do dia.'
+};
+
+const WEEK_HOURS = Array.from({length: 24}, (_, i) => i); // 00–23
+
+function getWeekStart(d) {
+  const date = new Date(d);
+  date.setHours(0, 0, 0, 0);
+  date.setDate(date.getDate() - date.getDay());
+  return date;
+}
+
+function toDateStr(d) {
+  return d.toISOString().split('T')[0];
+}
+
+function timeToMinutes(str) {
+  const [h, m] = str.split(':').map(Number);
+  return h * 60 + m;
+}
+
+// ── SWITCH CAL VIEW ──
+function switchCalView(view) {
+  currentCalView = view;
+  document.querySelectorAll('.view-cal-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + view).classList.add('active');
+  document.querySelectorAll('.view-cal-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('cal-panel-' + view).classList.add('active');
+  document.getElementById('cal-view-sub').textContent = CAL_VIEW_SUBS[view];
+  if (view === 'week') renderWeekView();
+  if (view === 'day') renderDayView();
+}
+
+// ── WEEK VIEW ──
+function changeWeek(dir) {
+  currentWeekStart.setDate(currentWeekStart.getDate() + dir * 7);
+  renderWeekView();
+}
+
+function renderWeekView() {
+  const todayStr = toDateStr(new Date());
+  const days = Array.from({length: 7}, (_, i) => {
+    const d = new Date(currentWeekStart);
+    d.setDate(d.getDate() + i);
+    return d;
+  });
+
+  // Week label
+  const labelStart = days[0].toLocaleDateString('pt-BR', {day: 'numeric', month: 'short'});
+  const labelEnd = days[6].toLocaleDateString('pt-BR', {day: 'numeric', month: 'short', year: 'numeric'});
+  document.getElementById('week-label').textContent = `${labelStart} – ${labelEnd}`;
+
+  const grid = document.getElementById('week-grid');
+
+  // Build header row
+  let html = `<div class="view-calendar-week__grid" id="week-grid-inner">`;
+
+  // Empty corner for gutter
+  html += `<div class="view-calendar-week__col-header" style="border-bottom:1px solid var(--border)"></div>`;
+
+  days.forEach(d => {
+    const dStr = toDateStr(d);
+    const isToday = dStr === todayStr;
+    const dayName = d.toLocaleDateString('pt-BR', {weekday: 'short'}).replace('.', '');
+    const dayNum = d.getDate();
+    html += `<div class="view-calendar-week__col-header${isToday ? ' today-col' : ''}" style="border-bottom:1px solid var(--border)">
+      <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.05em;">${dayName}</div>
+      <div style="font-size:1rem;font-family:'Syne',sans-serif;font-weight:${isToday ? '800' : '600'};color:${isToday ? 'var(--accent2)' : 'var(--text)'}">${dayNum}</div>
+    </div>`;
+  });
+
+  // Body: gutter + 7 day columns
+  html += `<div class="view-calendar-week__time-gutter" id="week-gutter">`;
+  WEEK_HOURS.forEach(h => {
+    html += `<div class="view-calendar-week__time-slot">${String(h).padStart(2,'0')}:00</div>`;
+  });
+  html += `</div>`;
+
+  days.forEach(d => {
+    const dStr = toDateStr(d);
+    const isToday = dStr === todayStr;
+    const dayEvents = eventos.filter(e => e.data === dStr);
+    html += `<div class="view-calendar-week__day-col${isToday ? ' view-calendar-week__today-col-bg' : ''}" id="week-col-${dStr}" style="height:${WEEK_HOURS.length * 52}px;position:relative;">`;
+    WEEK_HOURS.forEach(() => {
+      html += `<div class="view-calendar-week__hour-row"></div>`;
+    });
+    dayEvents.forEach(ev => {
+      const startMin = timeToMinutes(ev.hora_inicio);
+      const endMin = timeToMinutes(ev.hora_fim);
+      const top = (startMin / 60) * 52;
+      const height = Math.max(((endMin - startMin) / 60) * 52, 22);
+      html += `<div class="view-calendar-week__event ${ev.concluido ? 'concluido' : ev.tipo}"
+        style="top:${top}px;height:${height}px;"
+        onclick="openEventDetail('${ev.id}')"
+        title="${ev.titulo} ${ev.hora_inicio}–${ev.hora_fim}">
+        <div style="font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${ev.titulo}</div>
+        <div style="opacity:0.65;font-size:0.6rem;">${ev.hora_inicio}</div>
+      </div>`;
+    });
+    // Now-line
+    if (isToday) {
+      const now = new Date();
+      const nowMin = now.getHours() * 60 + now.getMinutes();
+      const nowTop = (nowMin / 60) * 52;
+      html += `<div class="view-calendar-week__now-line" style="top:${nowTop}px;"></div>`;
+    }
+    html += `</div>`;
+  });
+
+  html += `</div>`;
+  grid.innerHTML = html;
+}
+
+// ── DAY VIEW ──
+function changeDay(dir) {
+  currentDay.setDate(currentDay.getDate() + dir);
+  renderDayView();
+}
+
+function renderDayView() {
+  const todayStr = toDateStr(new Date());
+  const dStr = toDateStr(currentDay);
+  const isToday = dStr === todayStr;
+
+  const labelLong = currentDay.toLocaleDateString('pt-BR', {weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'});
+  const labelCap = labelLong.charAt(0).toUpperCase() + labelLong.slice(1);
+  document.getElementById('day-label').innerHTML = labelCap + (isToday ? `<span class="view-calendar-day__today-badge">Hoje</span>` : '');
+
+  const dayEvents = eventos.filter(e => e.data === dStr);
+
+  let html = `<div class="view-calendar-day__grid">`;
+
+  // Time gutter
+  html += `<div class="view-calendar-day__time-gutter">`;
+  WEEK_HOURS.forEach(h => {
+    html += `<div class="view-calendar-day__time-slot">${String(h).padStart(2,'0')}:00</div>`;
+  });
+  html += `</div>`;
+
+  // Event column
+  html += `<div class="view-calendar-day__col" style="height:${WEEK_HOURS.length * 60}px;position:relative;">`;
+  WEEK_HOURS.forEach(() => {
+    html += `<div class="view-calendar-day__hour-row"></div>`;
+  });
+
+  if (dayEvents.length === 0) {
+    html += `<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:0.85rem;pointer-events:none;">Nenhum evento neste dia 🎉</div>`;
+  }
+
+  dayEvents.forEach(ev => {
+    const startMin = timeToMinutes(ev.hora_inicio);
+    const endMin = timeToMinutes(ev.hora_fim);
+    const top = (startMin / 60) * 60;
+    const height = Math.max(((endMin - startMin) / 60) * 60, 36);
+    html += `<div class="view-calendar-day__event ${ev.concluido ? 'concluido' : ev.tipo}"
+      style="top:${top}px;height:${height}px;"
+      onclick="openEventDetail('${ev.id}')">
+      <div class="ev-title">${ev.titulo}</div>
+      <div class="ev-time">${ev.hora_inicio} – ${ev.hora_fim}</div>
+    </div>`;
+  });
+
+  // Now-line
+  if (isToday) {
+    const now = new Date();
+    const nowMin = now.getHours() * 60 + now.getMinutes();
+    const nowTop = (nowMin / 60) * 60;
+    html += `<div class="view-calendar-day__now-line" style="top:${nowTop}px;"></div>`;
+  }
+
+  html += `</div></div>`;
+  document.getElementById('day-grid').innerHTML = html;
+
+  // Auto-scroll to first event or current hour
+  requestAnimationFrame(() => {
+    const col = document.querySelector('.view-calendar-day__col');
+    if (!col) return;
+    const scrollTarget = dayEvents.length > 0
+      ? (timeToMinutes(dayEvents[0].hora_inicio) / 60) * 60 - 60
+      : (new Date().getHours() - 1) * 60;
+    col.closest('.main')?.scrollTo({top: Math.max(0, scrollTarget), behavior: 'smooth'});
+  });
+}
 
 init();
 </script>
